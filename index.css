@@ -1,0 +1,9 @@
+/* Add any custom styles here if needed */
+
+/* Disable text selection globally */
+* {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
