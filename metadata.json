@@ -1,5 +1,7 @@
 {
-  "name": "Vintage Typewriter Studio",
-  "description": "A retro-styled application where you can compose text on a virtual typewriter, polish it using AI to sound like the 1920s, and print it onto draggable paper cards.",
-  "requestFramePermissions": []
+  "name": "Memory Vortex Tree",
+  "description": "A cinematic 3D interactive Christmas tree where memories spiral from chaos into form using React Three Fiber and AI gesture control.",
+  "requestFramePermissions": [
+    "camera"
+  ]
 }

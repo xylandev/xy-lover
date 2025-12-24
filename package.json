@@ -1,25 +1,52 @@
 {
-  "name": "vintage-typewriter-studio",
+  "name": "memory-vortex-tree",
+  "version": "1.0.0",
   "private": true,
-  "version": "0.0.0",
   "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build && npm run build:docs",
-    "build:docs": "cp -r dist docs",
-    "preview": "vite preview"
-  },
   "dependencies": {
-    "@google/genai": "^1.30.0",
-    "@supabase/supabase-js": "^2.84.0",
-    "lucide-react": "^0.554.0",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "@react-three/drei": "^9.88.0",
+    "@react-three/fiber": "^8.15.11",
+    "@react-three/postprocessing": "^2.16.0",
+    "@tailwindcss/vite": "^4.1.17",
+    "framer-motion": "^10.16.4",
+    "maath": "^0.10.7",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tailwindcss": "^4.1.17",
+    "three": "^0.158.0",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
-    "@types/node": "^22.14.0",
-    "@vitejs/plugin-react": "^5.0.0",
-    "typescript": "~5.8.2",
-    "vite": "^6.2.0"
+    "@types/node": "^20.10.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@types/three": "^0.158.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.8"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "start": "vite"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }

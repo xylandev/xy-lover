@@ -1,7 +1,6 @@
 node_modules
 dist
-docs
 .git
-*.log
-npm-debug.log*
-.DS_Store
+.gitignore
+*.md
+.env*
