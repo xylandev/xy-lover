@@ -6,8 +6,9 @@ export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, '.', '');
     return {
       server: {
-        port: 3000,
+        port: 4002,
         host: '0.0.0.0',
+        allowedHosts: ['lover.xuyu.ink'],
       },
       plugins: [react()],
       define: {
