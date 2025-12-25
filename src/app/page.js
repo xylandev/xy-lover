@@ -7,6 +7,24 @@ import { motion, AnimatePresence } from 'framer-motion'
 
 const SECRET_CODE = '250627'
 
+// 安全的 localStorage 操作
+const safeLocalStorage = {
+  getItem: (key) => {
+    try {
+      return localStorage.getItem(key)
+    } catch {
+      return null
+    }
+  },
+  setItem: (key, value) => {
+    try {
+      localStorage.setItem(key, value)
+    } catch {
+      // ignore
+    }
+  }
+}
+
 function LockScreen({ onUnlock }) {
   const [code, setCode] = useState(['', '', '', '', '', ''])
   const [error, setError] = useState(false)
@@ -29,7 +47,7 @@ function LockScreen({ onUnlock }) {
     const fullCode = newCode.join('')
     if (fullCode.length === 6) {
       if (fullCode === SECRET_CODE) {
-        localStorage.setItem('unlocked', 'true')
+        safeLocalStorage.setItem('unlocked', 'true')
         onUnlock()
       } else {
         setError(true)
@@ -52,7 +70,7 @@ function LockScreen({ onUnlock }) {
       const newCode = paste.split('')
       setCode(newCode)
       if (paste === SECRET_CODE) {
-        localStorage.setItem('unlocked', 'true')
+        safeLocalStorage.setItem('unlocked', 'true')
         onUnlock()
       } else {
         setError(true)
@@ -142,7 +160,7 @@ export default function Home() {
 
   // 检查是否已解锁
   useEffect(() => {
-    const isUnlocked = localStorage.getItem('unlocked') === 'true'
+    const isUnlocked = safeLocalStorage.getItem('unlocked') === 'true'
     setUnlocked(isUnlocked)
   }, [])
 
