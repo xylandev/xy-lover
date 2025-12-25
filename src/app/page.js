@@ -26,126 +26,61 @@ const safeLocalStorage = {
 }
 
 function LockScreen({ onUnlock }) {
-  const [code, setCode] = useState(['', '', '', '', '', ''])
+  const [code, setCode] = useState('')
   const [error, setError] = useState(false)
-  const inputRefs = useRef([])
 
-  const handleChange = (index, value) => {
-    if (!/^\d*$/.test(value)) return
-
-    const newCode = [...code]
-    newCode[index] = value.slice(-1)
-    setCode(newCode)
+  const handleChange = (e) => {
+    const value = e.target.value.replace(/\D/g, '').slice(0, 6)
+    setCode(value)
     setError(false)
 
-    // 自动跳转到下一个输入框
-    if (value && index < 5) {
-      inputRefs.current[index + 1]?.focus()
-    }
-
-    // 检查是否输入完成
-    const fullCode = newCode.join('')
-    if (fullCode.length === 6) {
-      if (fullCode === SECRET_CODE) {
+    if (value.length === 6) {
+      if (value === SECRET_CODE) {
         safeLocalStorage.setItem('unlocked', 'true')
         onUnlock()
       } else {
         setError(true)
-        setCode(['', '', '', '', '', ''])
-        inputRefs.current[0]?.focus()
-      }
-    }
-  }
-
-  const handleKeyDown = (index, e) => {
-    if (e.key === 'Backspace' && !code[index] && index > 0) {
-      inputRefs.current[index - 1]?.focus()
-    }
-  }
-
-  const handlePaste = (e) => {
-    e.preventDefault()
-    const paste = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 6)
-    if (paste.length === 6) {
-      const newCode = paste.split('')
-      setCode(newCode)
-      if (paste === SECRET_CODE) {
-        safeLocalStorage.setItem('unlocked', 'true')
-        onUnlock()
-      } else {
-        setError(true)
-        setTimeout(() => {
-          setCode(['', '', '', '', '', ''])
-          inputRefs.current[0]?.focus()
-        }, 500)
+        setTimeout(() => setCode(''), 500)
       }
     }
   }
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed inset-0 z-50"
-    >
+    <div className="fixed inset-0 z-50">
       <FluidBackground />
       <div className="relative z-10 h-full flex flex-col items-center justify-center px-4">
-        <motion.div
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay: 0.2, type: 'spring' }}
-          className="text-center"
-        >
-          <motion.div
-            animate={{ scale: [1, 1.1, 1] }}
-            transition={{ repeat: Infinity, duration: 2 }}
-            className="mb-8"
-          >
+        <div className="text-center">
+          <div className="mb-8 animate-pulse">
             <Heart className="w-16 h-16 mx-auto text-pink-400 fill-pink-200" />
-          </motion.div>
-
-          {/* 6位密码输入框 */}
-          <div className="flex gap-3 justify-center mb-6">
-            {code.map((digit, index) => (
-              <motion.input
-                key={index}
-                ref={(el) => (inputRefs.current[index] = el)}
-                type="text"
-                inputMode="numeric"
-                maxLength={1}
-                value={digit}
-                onChange={(e) => handleChange(index, e.target.value)}
-                onKeyDown={(e) => handleKeyDown(index, e)}
-                onPaste={handlePaste}
-                animate={error ? { x: [-4, 4, -4, 4, 0] } : {}}
-                transition={{ duration: 0.3 }}
-                className={`w-12 h-14 md:w-14 md:h-16 text-center text-2xl font-bold rounded-xl border-2 bg-white/80 backdrop-blur outline-none transition-all ${
-                  error
-                    ? 'border-red-400 text-red-500'
-                    : digit
-                    ? 'border-pink-400 text-gray-800'
-                    : 'border-gray-200 text-gray-800'
-                } focus:border-sky-400 focus:shadow-lg`}
-              />
-            ))}
           </div>
 
-          <AnimatePresence>
-            {error && (
-              <motion.p
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0 }}
-                className="text-red-400 text-sm"
-              >
-                密码错误，请重试
-              </motion.p>
-            )}
-          </AnimatePresence>
-        </motion.div>
+          {/* 单个密码输入框 */}
+          <div className="mb-6">
+            <input
+              type="tel"
+              inputMode="numeric"
+              pattern="[0-9]*"
+              maxLength={6}
+              value={code}
+              onChange={handleChange}
+              autoFocus
+              placeholder="······"
+              className={`w-48 h-14 text-center text-2xl font-bold tracking-[0.5em] rounded-xl border-2 bg-white/80 backdrop-blur outline-none transition-all ${
+                error
+                  ? 'border-red-400 text-red-500 animate-shake'
+                  : code
+                  ? 'border-pink-400 text-gray-800'
+                  : 'border-gray-200 text-gray-800'
+              } focus:border-sky-400 focus:shadow-lg`}
+            />
+          </div>
+
+          {error && (
+            <p className="text-red-400 text-sm">密码错误，请重试</p>
+          )}
+        </div>
       </div>
-    </motion.div>
+    </div>
   )
 }
 
