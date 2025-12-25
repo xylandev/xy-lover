@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;500;700&family=Inter:wght@300;400;500&display=swap');
+
+:root {
+  --foreground-rgb: 44, 62, 80;
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: #f0f2f5;
+  overflow-x: hidden;
+}

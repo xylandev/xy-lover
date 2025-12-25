@@ -1,6 +1,9 @@
 node_modules
-dist
+.next
 .git
-.gitignore
 *.md
-.env*
+.env*.local
+prisma/dev.db
+prisma/dev.db-journal
+public/uploads/*
+!public/uploads/.gitkeep
